@@ -8,7 +8,9 @@ import { getServerAuthSession } from "../common/get-server-auth-session";
 import { prisma } from "../db/client";
 
 interface CreateInnerContextOptions extends Partial<CreateNextContextOptions> {
-  session: Session | null | undefined
+  session: Session | null | undefined,
+  req:NextApiRequest,
+  res:NextApiResponse<any>
 }
 
 /** Use this helper for:
@@ -32,7 +34,7 @@ export const createContextInner = async (opts?: CreateInnerContextOptions) => {
 export const createContext = async (opts: CreateInnerContextOptions) => {
   const { req, res } = opts as {
     req:NextApiRequest,
-    res:NextApiResponse
+    res:NextApiResponse<any>
   };
 
   // Get the session from the server using the unstable_getServerSession wrapper function
