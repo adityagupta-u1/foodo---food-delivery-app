@@ -8,7 +8,7 @@ import { getServerAuthSession } from "../common/get-server-auth-session";
 import { prisma } from "../db/client";
 
 interface CreateInnerContextOptions extends Partial<CreateNextContextOptions> {
-  session: Session | null
+  session: Session | null | undefined
 }
 
 /** Use this helper for:
