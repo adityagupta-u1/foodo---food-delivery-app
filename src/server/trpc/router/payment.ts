@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 import shortid from "shortid";
 import { z } from "zod";
 import { env } from "../../../env/server.mjs";
-import { instance, instanceFunction } from "../../../utils/razorpay";
+import { instanceFunction } from "../../../utils/razorpay";
 import { publicProcedure, router } from "../trpc";
 
 
