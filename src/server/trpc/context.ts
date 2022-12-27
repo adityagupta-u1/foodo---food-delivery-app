@@ -38,7 +38,7 @@ export const createContext = async (opts: CreateContextOptions) => {
   const session = await getServerAuthSession({ req, res });
 
   return await createContextInner({
-    session:session,
+    session,
     req:opts.req,
     res:opts.res
   });
