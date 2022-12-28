@@ -6,8 +6,8 @@ import Link from "next/link";
 import Header from "../../components/Header";
 import { HomePage } from "../../components/home";
 import { getServerAuthSession } from "../server/common/get-server-auth-session";
+import { prisma } from "../server/db/client";
 import { getSession } from "../utils/next-session-store";
-
 
 
 const Home =  ({admin,product,user,cartQty,orders}:{admin:boolean,product: Product[] | null | undefined,user: User,cartQty:number | null,orders:Orders[] | null}) => {
