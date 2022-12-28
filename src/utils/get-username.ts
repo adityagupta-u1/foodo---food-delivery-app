@@ -1,4 +1,6 @@
-export const getUsername = async (session:any,prisma:any)=>{
+import { prisma } from "../server/db/client";
+
+export const getUsername = async (session:any)=>{
 
     const products = await prisma?.product.findMany();
     if(session){

@@ -203,7 +203,7 @@ export default CheckOut;
 export async function getServerSideProps(ctx:GetServerSidePropsContext){
     const session = await getSession(ctx.req,ctx.res);
     const sessionUser = await getServerAuthSession(ctx);
-    const props = await getUsername(sessionUser,prisma)
+    const props = await getUsername(sessionUser)
     const user = props.props.user;
     const key = env.RAZORPAY_KEY_ID;
     if(user){

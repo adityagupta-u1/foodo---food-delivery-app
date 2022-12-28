@@ -123,7 +123,7 @@ export default Cart
 export async function getServerSideProps(ctx:GetServerSidePropsContext){
     const session = await getSession(ctx.req,ctx.res);
     const sessionUser = await getServerAuthSession(ctx);
-    const props = await getUsername(sessionUser,prisma)
+    const props = await getUsername(sessionUser)
     const user = props.props.user;
     if(user){
         const cart = await prisma?.cart.findFirst({
