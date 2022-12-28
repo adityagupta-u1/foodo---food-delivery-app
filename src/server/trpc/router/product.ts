@@ -72,7 +72,7 @@ export const productRouter = router({
         }))
         .mutation( async({ctx,input})=>{
             try{
-                const item: Items | null = await ctx.prisma.items.findFirst({
+                const item = await ctx.prisma.items.findFirst({
                     where:{
                         productId:input.id
                     },

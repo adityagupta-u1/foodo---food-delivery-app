@@ -17,7 +17,7 @@ interface CreateInnerContextOptions extends Partial<CreateNextContextOptions> {
  * - trpc's `createSSGHelpers` where we don't have req/res
  * @see https://create.t3.gg/en/usage/trpc#-servertrpccontextts
  **/
-export const createContextInner = async (opts?: CreateInnerContextOptions) => {
+export const createContextInner = async (opts: CreateInnerContextOptions) => {
   const {req,res} = opts as {
     req:NextApiRequest,
     res:NextApiResponse<any>
@@ -26,8 +26,8 @@ export const createContextInner = async (opts?: CreateInnerContextOptions) => {
   return {
     prisma,
     session,
-    req:opts?.req,
-    res:opts?.res
+    req:opts.req,
+    res:opts.res
   };
 };
 

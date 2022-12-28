@@ -1,13 +1,12 @@
-import { type Items, type Prisma, type PrismaClient } from "@prisma/client";
+import { type Items, type Prisma, type PrismaClient, type Session } from "@prisma/client";
 import { type NextApiRequest, type NextApiResponse } from "next";
 
 
 
-export async function getItems(ctx:{
-    prisma: PrismaClient<Prisma.PrismaClientOptions, never, Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined>;
-    req: NextApiRequest;
-    res: NextApiResponse
-},qty:number,id:string,price:number,items:Items | null,size:string,options:{text:string,price:number} []){
+export async function getItems(
+    ctx: { prisma: any; req?: NextApiRequest;
+    res?: NextApiResponse<any>; }
+    ,qty:number,id:string,price:number,items:Items | null,size:string,options:{text:string,price:number} []){
     if(items){
         console.log("i am in update items")
         const updatedItem = await ctx.prisma.items.update({

@@ -9,6 +9,7 @@ interface Orders{
     id:string,
     customer:string,
     total:number,
+    order_id:string,
     items:{
         id:string,
         text:string,
