@@ -1,4 +1,4 @@
-import { type size } from "@prisma/client";
+
 import { type GetServerSidePropsContext } from "next";
 import Image from "next/legacy/image";
 import { useRouter } from "next/router";
@@ -13,7 +13,7 @@ interface Product  {
     image: string | null;
     size: {
         id: string;
-        size: size;
+        size: string;
         price: number;
     }[];
     extraOptions: {
