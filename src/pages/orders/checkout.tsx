@@ -6,11 +6,11 @@ import { useState } from "react";
 import * as Yup from "yup";
 import { env } from "../../env/server.mjs";
 import { getServerAuthSession } from "../../server/common/get-server-auth-session";
+import { prisma } from "../../server/db/client";
 import { getUsername } from "../../utils/get-username";
 import { getSession } from "../../utils/next-session-store";
 import { initializeRazorpay } from "../../utils/razorpay";
 import { trpc } from "../../utils/trpc";
-
 
 declare global {
     interface Window {

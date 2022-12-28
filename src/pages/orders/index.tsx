@@ -2,9 +2,9 @@
 import { type GetServerSidePropsContext } from "next";
 import Link from "next/link";
 import { getServerAuthSession } from "../../server/common/get-server-auth-session";
+import { prisma } from "../../server/db/client";
 import { getUsername } from "../../utils/get-username";
 import { getSession } from "../../utils/next-session-store";
-
 interface Orders{
     id:string,
     customer:string,

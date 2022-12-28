@@ -2,7 +2,7 @@ import { type Orders } from "@prisma/client";
 import { type GetServerSidePropsContext } from "next";
 import { useState } from "react";
 import { number, set } from "zod";
-
+import { prisma } from "../../server/db/client";
 
 const Order = ({order}:{order:Orders | null}) => {
     

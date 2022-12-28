@@ -4,9 +4,9 @@ import Image from "next/legacy/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getServerAuthSession } from "../../server/common/get-server-auth-session";
+import { prisma } from "../../server/db/client";
 import { getUsername } from "../../utils/get-username";
 import { trpc } from "../../utils/trpc";
-
 interface Product  {
     id: string;
     title: string;
