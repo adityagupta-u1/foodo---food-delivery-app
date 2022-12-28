@@ -5,7 +5,7 @@ import Form from "../../components/admin/form";
 import OrdersAdmin from "../../components/admin/orders";
 import Products from "../../components/admin/products";
 import { getServerAuthSession } from "../server/common/get-server-auth-session";
-import { getUsername } from "../server/common/get-username";
+import { getUsername } from "../utils/get-username";
 
 
 

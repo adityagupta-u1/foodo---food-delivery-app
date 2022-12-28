@@ -6,7 +6,7 @@ import Link from "next/link";
 import Header from "../../components/Header";
 import { HomePage } from "../../components/home";
 import { getServerAuthSession } from "../server/common/get-server-auth-session";
-import { getUsername } from "../server/common/get-username";
+import { getUsername } from "../utils/get-username";
 import { getSession } from "../utils/next-session-store";
 
 

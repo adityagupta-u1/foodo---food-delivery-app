@@ -4,7 +4,7 @@ import Image from "next/legacy/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getServerAuthSession } from "../../server/common/get-server-auth-session";
-import { getUsername } from "../../server/common/get-username";
+import { getUsername } from "../../utils/get-username";
 import { trpc } from "../../utils/trpc";
 
 interface Product  {

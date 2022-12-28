@@ -2,7 +2,7 @@
 import { type GetServerSidePropsContext } from "next";
 import Link from "next/link";
 import { getServerAuthSession } from "../../server/common/get-server-auth-session";
-import { getUsername } from "../../server/common/get-username";
+import { getUsername } from "../../utils/get-username";
 import { getSession } from "../../utils/next-session-store";
 
 interface Orders{

@@ -6,7 +6,7 @@ import { useState } from "react";
 import * as Yup from "yup";
 import { env } from "../../env/server.mjs";
 import { getServerAuthSession } from "../../server/common/get-server-auth-session";
-import { getUsername } from "../../server/common/get-username";
+import { getUsername } from "../../utils/get-username";
 import { getSession } from "../../utils/next-session-store";
 import { initializeRazorpay } from "../../utils/razorpay";
 import { trpc } from "../../utils/trpc";
@@ -203,7 +203,7 @@ export default CheckOut;
 export async function getServerSideProps(ctx:GetServerSidePropsContext){
     const session = await getSession(ctx.req,ctx.res);
     const sessionUser = await getServerAuthSession(ctx);
-    const props = await getUsername(sessionUser)
+    const props = await getUsername(sessionUser,prisma)
     const user = props.props.user;
     const key = env.RAZORPAY_KEY_ID;
     if(user){

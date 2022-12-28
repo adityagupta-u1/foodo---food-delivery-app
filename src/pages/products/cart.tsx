@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { env } from "../../env/server.mjs";
 import { getServerAuthSession } from "../../server/common/get-server-auth-session";
-import { getUsername } from "../../server/common/get-username";
+import { getUsername } from "../../utils/get-username";
 import { getSession } from "../../utils/next-session-store";
 import { initializeRazorpay } from "../../utils/razorpay";
 import { trpc } from "../../utils/trpc";
