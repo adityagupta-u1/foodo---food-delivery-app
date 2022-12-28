@@ -59,7 +59,7 @@ export default Home;
 export async function getServerSideProps(ctx:GetServerSidePropsContext){
 
   const sessionUser = await getServerAuthSession(ctx);
-  const props = await getUsername(sessionUser);
+  const props = await getUsername(sessionUser,prisma);
   const user = props.props.user;
   const sessionCookie = await getSession(ctx.req,ctx.res);
   const sessionCart:string | null = sessionCookie.cart?.id;

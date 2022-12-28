@@ -144,7 +144,7 @@ export default Product;
 export async function getServerSideProps(ctx:GetServerSidePropsContext){
 
     const session = await getServerAuthSession(ctx);
-    const props = await getUsername(session)
+    const props = await getUsername(session,prisma)
     const param = ctx.params?.id;  
     if(param){
         const product = await prisma?.product.findFirst({

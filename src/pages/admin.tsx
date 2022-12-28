@@ -39,7 +39,7 @@ export default Admin;
 export async function getServerSideProps(ctx:GetServerSidePropsContext){
 
   const session = await getServerAuthSession(ctx);
-  const props = await getUsername(session)
+  const props = await getUsername(session,prisma)
   const order = await prisma?.orders.findMany();
   if(order){
     return {

@@ -1,4 +1,4 @@
-export const getUsername = async (session:any)=>{
+export const getUsername = async (session:any,prisma:any)=>{
 
     const products = await prisma?.product.findMany();
     if(session){
