@@ -8,7 +8,6 @@ import { getServerAuthSession } from "../common/get-server-auth-session";
 import { prisma } from "../db/client";
 
 interface CreateInnerContextOptions extends Partial<CreateNextContextOptions> {
-  session: Session | null | undefined,
   req:NextApiRequest,
   res:NextApiResponse<any>
 }
@@ -19,9 +18,14 @@ interface CreateInnerContextOptions extends Partial<CreateNextContextOptions> {
  * @see https://create.t3.gg/en/usage/trpc#-servertrpccontextts
  **/
 export const createContextInner = async (opts?: CreateInnerContextOptions) => {
+  const {req,res} = opts as {
+    req:NextApiRequest,
+    res:NextApiResponse<any>
+  }
+  const session = await getServerAuthSession({ req,res });
   return {
     prisma,
-    session:opts?.session,
+    session,
     req:opts?.req,
     res:opts?.res
   };
@@ -38,8 +42,7 @@ export const createContext = async (opts: CreateInnerContextOptions) => {
   };
 
   // Get the session from the server using the unstable_getServerSession wrapper function
-  const session = await getServerAuthSession({ req, res });
-  const contextInner = await createContextInner({ session,req,res });
+  const contextInner = await createContextInner({ req,res });
   return {
     ...contextInner
   }
