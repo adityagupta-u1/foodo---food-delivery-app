@@ -52,6 +52,7 @@ const CheckOut = ({cart,razorpayKey,user,session}:{cart:Cart | null,razorpayKey:
                         picked:Yup.string()
                     })}
                     onSubmit={async(values) => {
+                        console.log("clicked it")
                         console.log(cart.id)
                         const res  = await initializeRazorpay();
                         if (!res) {

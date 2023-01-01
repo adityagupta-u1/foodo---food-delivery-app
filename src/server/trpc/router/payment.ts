@@ -12,8 +12,9 @@ export const paymentRouter = router({
         amount:z.number()
     }))
     .mutation(async ({ctx,input}) => {
+      
         const payment_capture = 1;
-        const amount = input.amount;
+        const amount:number = input.amount;
         const currency = "INR";
         const options = {
           amount: (amount * 100).toString(),
