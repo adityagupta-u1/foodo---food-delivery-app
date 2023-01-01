@@ -5,8 +5,8 @@ import Form from "../../components/admin/form";
 import OrdersAdmin from "../../components/admin/orders";
 import Products from "../../components/admin/products";
 import { getServerAuthSession } from "../server/common/get-server-auth-session";
+import { prisma } from "../server/db/client";
 import { getUsername } from "../utils/get-username";
-
 
 
 const Admin = ({admin,product,order}:{admin:boolean,product:any,order: Orders[] | undefined})=>{

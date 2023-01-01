@@ -77,7 +77,7 @@ export const authOptions: NextAuthOptions = {
   pages:{
     signIn:'auth/login'
   },
-  secret:env.JWT_SECRET,
+  secret:env.NEXTAUTH_SECRET,
   callbacks:{
     async jwt({ token, account }) {
       // Persist the OAuth access_token and or the user id to the token right after signin
