@@ -88,7 +88,7 @@ export const authOptions: NextAuthOptions = {
         where:{
           email:session.user?.email
         }
-      })
+      }) as unknown as User
       if(session.user){
         session.user.role = user?.role
       }
