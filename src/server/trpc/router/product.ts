@@ -5,7 +5,14 @@ import { z } from "zod";
 
 import { publicProcedure, router } from "../trpc";
 
-
+interface ProductWithSize {
+    id:string,
+    size:{
+        id:string
+        size:string
+        price:number
+    }[]
+}
 
 export const productRouter = router({
   createProduct: publicProcedure
@@ -29,7 +36,7 @@ export const productRouter = router({
     .mutation( async ({ ctx,input }) => {
         try{
             if(input.options){
-                const product:Product = await ctx.prisma.product.create({
+                const product:ProductWithSize = await ctx.prisma.product.create({
                     data:{
                         title:input.title,
                         descripton:input.description,
@@ -44,11 +51,16 @@ export const productRouter = router({
                                 data:input.size
                             }
                         }
+                    },
+                    select:{
+                        id:true,
+                        size:true
                     }
                 })
+                console.log(product)
                 return product.id
             }
-            const product:Product = await ctx.prisma.product.create({
+            const product:ProductWithSize = await ctx.prisma.product.create({
                 data:{
                     title:input.title,
                     descripton:input.description,
@@ -58,8 +70,13 @@ export const productRouter = router({
                             data:input.options || [],
                         }
                     }
+                },
+                select:{
+                    id:true,
+                    size:true
                 }
             })
+            console.log(product)
             return product.id
         }catch(e){
             console.log(e);

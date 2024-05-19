@@ -7,7 +7,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-
   url      = env("DATABASE_URL")
 }
 
@@ -17,7 +16,7 @@ model Example {
   updatedAt DateTime @updatedAt
 }
 
-// Necessary for Next auth
+
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -75,7 +74,6 @@ model User {
   cart          Cart?
   orders        Orders[]
 }
-
 model Options {
   id            String    @id @default(uuid())
   text          String?
@@ -149,6 +147,7 @@ model Orders {
 enum Role {
   ADMIN
   USER
+  DELIVERY
 }
 
 enum size {

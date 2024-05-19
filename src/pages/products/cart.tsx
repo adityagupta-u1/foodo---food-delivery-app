@@ -1,5 +1,5 @@
 
-import { type Product } from "@prisma/client";
+import { Size, type Product } from "@prisma/client";
 import { type GetServerSidePropsContext } from "next";
 import Image from "next/legacy/image";
 import Link from "next/link.js";
@@ -12,28 +12,28 @@ import { getUsername } from "../../utils/get-username";
 import { getSession } from "../../utils/next-session-store";
 import { initializeRazorpay } from "../../utils/razorpay";
 import { trpc } from "../../utils/trpc";
-interface item{
+interface sessionCart {
+    totalPrice:number;
+    item:sessionItems []
+}
+
+interface sessionItems {
+        id:string;
+        qty:number;
+        totalPrice:number;
+        product: sessionProduct| null;
+        size:string
+}
+
+interface sessionProduct {
     id: string;
-    productId: string | null;
-    cartId: string | null;
-    qty: number | null;
-    totalPrice: number;
-    product:Product;
-    size:string;
-    extraOptions:{
-        id:string,
-        text:string,
-        price:number
-    }[]
+    image: string | null;
+    title: string;
 }
 
-interface cart{
-    id:string,
-    totalPrice: number
-    item:item[]
-}
 
-function Cart({cart}:{cart:cart}) {
+
+function Cart({cart}:{cart:sessionCart}) {
     const [order,setOrder] = useState<{id:string,amount:number,currency:string}>();
 
     const router = useRouter()
@@ -62,15 +62,15 @@ function Cart({cart}:{cart:cart}) {
                     <h1>total price is {cart.totalPrice}</h1>
                    <div className="grid grid-cols-3 gap-14">
                         {
-                            cart.item.map((item:item)=> {
-                                const {id,image,title}:Product = item.product;
-                                const size = item.size;
+                            cart.item.map((item:sessionItems) => {
+                                const product = item.product;
+                                const sizeCart = item.size;
                                 console.log(item)
                                 return (
                                     <div key={item.id} className="bg-red-300 w-4/5  flex flex-col-reverse border-black border-2 justify-end rounded-lg">
                                         <button className="bg-red-500 px-4 py-2 w-fit h-fit cursor-pointer" 
                                             onClick={()=>{
-                                                mutate({id:id })
+                                                mutate({id:product?.id || '' })
                                                 setDisable(true)
                                             }}
                                             disabled={disable}
@@ -78,21 +78,14 @@ function Cart({cart}:{cart:cart}) {
                                             delete
                                         </button>
                                         <div className="w-full min-h-fit px-4 py-6">
-                                            <h2 className="text-2xl font-medium mb-2 capitalize">{title}</h2>
+                                            <h2 className="text-2xl font-medium mb-2 capitalize">{product?.title}</h2>
                                             <h3 className="text-base font-medium">{item.qty}</h3>
                                             <h3 className="text-base font-medium">{item.totalPrice}</h3>
-                                            <h3 className="text-base font-medium">{size}</h3>
-                                            {   
-                                                item.extraOptions.map((options)=>(
-                                                    <div key={options.id}>
-                                                        <h4>{options.text}</h4>
-                                                    </div>
-                                                ))
-                                            }
+                                            <h3 className="text-base font-medium">{sizeCart}</h3>
                                         </div>
                                         <div className="w-full h-60 relative rounded-md">
                                             <Image 
-                                            src={image || ''} 
+                                            src={product?.image || ''} 
                                             alt="product-image"
                                             layout="fill"
                                             objectFit="cover"
@@ -107,11 +100,16 @@ function Cart({cart}:{cart:cart}) {
                    <div>
                     {cart.totalPrice}
                    </div>
-                   <button className="cursor-pointer">
-                        <Link href="/orders/checkout">
-                            pay
-                        </Link> 
-                    </button>
+                    {
+                            cart.item.length > 0 ? (
+                            <button className="cursor-pointer">
+                                <Link href="/orders/checkout">
+                                    pay
+                                </Link> 
+                            </button>
+                            )
+                            : null
+                    }
                 </main>
             </>
         )
@@ -152,6 +150,7 @@ export async function getServerSideProps(ctx:GetServerSidePropsContext){
                 }
             }
         })
+        console.log("I am in the user block")
         console.log(cart)
         return {
             props:{
@@ -160,31 +159,15 @@ export async function getServerSideProps(ctx:GetServerSidePropsContext){
         }
     }
     if(session.cart){
-        const cart = await prisma?.cart.findFirst({
-            where:{
-                id:session.cart.id
-            },
-            select:{
-                totalPrice:true,
-                item:{
-                    select:{
-                        id:true,
-                        qty:true,
-                        totalPrice:true,
-                        size:true,
-                        extraOptions:true,
-                        product:{
-                            select:{
-                                id:true,
-                                title:true,
-                                descripton:true,
-                                image:true
-                            }
-                        }
-                    }
-                }
-            }
-        })
+        const cart = session.cart;
+        // console.log(cart)
+        // const qty = cart.length
+    
+        // const orders = await prisma?.orders.findMany({
+        //   where:{
+        //     sessionId:session.id
+        //   }
+        // })
         console.log(cart)
         return {
             props:{

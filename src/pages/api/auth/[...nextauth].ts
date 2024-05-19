@@ -1,10 +1,11 @@
 import bcrypt from "bcrypt";
-import NextAuth, { type NextAuthOptions } from "next-auth";
+import NextAuth, { Session, type NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 // Prisma adapter for NextAuth, optional and can be removed
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
 
+import { Role, User } from "@prisma/client";
 import { env } from "../../../env/server.mjs";
 import { prisma } from "../../../server/db/client";
 
@@ -26,11 +27,12 @@ export const authOptions: NextAuthOptions = {
       credentials:{},
       async authorize(credentials){
 
-        const {name,email,password,method} = credentials as {
+        const {name,email,password,method,role} = credentials as {
           name:string
           email:string
           password:string 
           method:string
+          role:Role | null
         };
         // Check if user with the email exists
         const user = await prisma.user.findFirst({
@@ -47,12 +49,14 @@ export const authOptions: NextAuthOptions = {
               const salt = bcrypt.genSaltSync(12);
               const hash = bcrypt.hashSync(password, salt);
       
-              const newUser = await prisma.user.create({
+              const newUser:User = await prisma.user.create({
                 data:{
                   name:name,
                   email:email,
-                  password:hash
+                  password:hash,
+                  role:role ? role : "USER"
                 }
+
               })
               
 
@@ -79,6 +83,17 @@ export const authOptions: NextAuthOptions = {
   },
   secret:env.NEXTAUTH_SECRET,
   callbacks:{
+    async session({ session }:{session:Session}){
+      const user = await prisma.user.findFirst({
+        where:{
+          email:session.user?.email
+        }
+      })
+      if(session.user){
+        session.user.role = user?.role
+      }
+      return session;
+    },
     async jwt({ token, account }) {
       // Persist the OAuth access_token and or the user id to the token right after signin
       if (account) {

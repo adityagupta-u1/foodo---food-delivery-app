@@ -26,6 +26,7 @@ import * as Yup from 'yup';
                     email: values.email,
                     password: values.password,
                     callbackUrl: `/`,
+                    role:"DELIVERY"
                   });
                   if (res?.error) {
                     setError(res?.error);

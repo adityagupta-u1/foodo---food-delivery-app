@@ -10,6 +10,22 @@ import { prisma } from "../server/db/client";
 import { getUsername } from "../utils/get-username";
 import { getSession } from "../utils/next-session-store";
 
+interface sessionCart {
+  totalPrice:number;
+  items:sessionItems []
+}
+
+interface sessionItems {
+      id:string;
+      qty:number;
+      totalPrice:number;
+      product:{
+          id: string;
+          image: string | null;
+          title: string;
+      } | null;
+      size:string
+}
 
 const Home =  ({admin,product,user,cartQty,orders}:{admin:boolean,product: Product[] | null | undefined,user: User,cartQty:number | null,orders:Orders[] | null}) => {
   
@@ -61,8 +77,7 @@ export async function getServerSideProps(ctx:GetServerSidePropsContext){
   const sessionUser = await getServerAuthSession(ctx);
   const props = await getUsername(sessionUser);
   const user = props.props.user;
-  const sessionCookie = await getSession(ctx.req,ctx.res);
-  const sessionCart:string | null = sessionCookie.cart?.id;
+  const session = await getSession(ctx.req,ctx.res);
 
   if(user){
     const cart = await prisma?.cart?.findFirst({
@@ -87,18 +102,15 @@ export async function getServerSideProps(ctx:GetServerSidePropsContext){
     }
 
   }
-  else if(sessionCart){
-    const cart = await prisma?.cart.findFirst({
-      where:{
-        id:sessionCart,
-      },
-      select:{
-        qty:true,
-      }
-    })
+  else if(session.cart){
+    const cart:sessionCart = session.cart;
+    console.log(cart)
+    const qty = cart.items.length
+
+    console.log(qty)
     const orders = await prisma?.orders.findMany({
       where:{
-        sessionId:sessionCookie.id
+        sessionId:session.id
       }
     })
     return {
@@ -106,7 +118,7 @@ export async function getServerSideProps(ctx:GetServerSidePropsContext){
         user:props.props.user,
         admin:props.props.admin,
         product:props.props.product,
-        cartQty:cart?.qty ? cart.qty : 0,
+        cartQty:qty,
         orders:orders
       }
     }
