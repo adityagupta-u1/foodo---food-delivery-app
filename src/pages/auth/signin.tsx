@@ -64,7 +64,7 @@ import * as Yup from 'yup';
                     name
                     <Field
                       name="name"
-                      aria-label="enter your name"
+                      aria-label="enter your name2"
                       aria-required="true"
                       type="text"
                       className="w-full bg-gray-300 text-gray-900 mt-2 p-3"
