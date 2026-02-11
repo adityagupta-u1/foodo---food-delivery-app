@@ -16,7 +16,6 @@ model Example {
   updatedAt DateTime @updatedAt
 }
 
-
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -44,20 +43,20 @@ model Session {
 }
 
 model SessionCart {
-  id          String   @id
-  sid         String   @unique
-  data        String
-  expiresAt   DateTime
-  orders      Orders[]
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
+  orders    Orders[]
 }
 
 model Address {
-  id          String    @id   @default(uuid())
-  profile     Profile         @default(HOME)
-  address     String
-  landmark    String?
-  user        User      @relation(fields: [userId],references: [id],onDelete: Cascade)
-  userId      String
+  id       String  @id @default(uuid())
+  profile  Profile @default(HOME)
+  address  String
+  landmark String?
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String
 }
 
 model User {
@@ -74,74 +73,75 @@ model User {
   cart          Cart?
   orders        Orders[]
 }
+
 model Options {
-  id            String    @id @default(uuid())
-  text          String?
-  price         Int       @default(0)
-  product       Product?   @relation(fields: [productId],references: [id],onDelete: Cascade)
-  productId     String?
-  items         Items?   @relation(fields: [itemsId],references: [id],onDelete: Cascade)
-  itemsId       String?
+  id        String   @id @default(uuid())
+  text      String?
+  price     Int      @default(0)
+  product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String?
+  items     Items?   @relation(fields: [itemsId], references: [id], onDelete: Cascade)
+  itemsId   String?
 }
 
 model Size {
-  id            String    @id @default(uuid())
-  size          String
-  price         Int       @default(0)
-  product       Product?  @relation(fields: [productId],references: [id], onDelete: Cascade)
-  productId     String?
+  id        String   @id @default(uuid())
+  size      String
+  price     Int      @default(0)
+  product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String?
 }
 
 model Product {
-  id            String    @id @default(uuid())
-  title         String
-  descripton    String
-  image         String?
-  extraOptions  Options[] 
-  item          Items[]
-  size          Size[]        
+  id           String    @id @default(uuid())
+  title        String
+  descripton   String
+  image        String?
+  extraOptions Options[]
+  item         Items[]
+  size         Size[]
 }
 
 model Items {
-  id            String        @id @default(uuid())
-  product       Product?      @relation(fields: [productId],references: [id],onDelete: Cascade)
-  productId     String?  
-  cart          Cart?         @relation(fields: [cartId], references: [id], onDelete: Cascade)
-  cartId        String?
-  qty           Int           @default(0)
-  totalPrice    Int           @default(0)
-  size          String?
-  extraOptions  Options[]
-  order         Orders?        @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  orderId       String?
+  id           String    @id @default(uuid())
+  product      Product?  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId    String?
+  cart         Cart?     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  cartId       String?
+  qty          Int       @default(0)
+  totalPrice   Int       @default(0)
+  size         String?
+  extraOptions Options[]
+  order        Orders?   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId      String?
 }
 
-model Cart{
-  id            String        @id   @default(uuid())
-  total         Int? 
-  createdAt     DateTime?     @default(now())
-  item          Items[] 
-  qty           Int?          @default(0)
-  totalPrice    Int           @default(0)
-  sessionId     String?       @unique
-  user          User?         @relation(fields: [userId],references: [id],onDelete: Cascade)
-  userId        String?       @unique 
+model Cart {
+  id         String    @id @default(uuid())
+  total      Int?
+  createdAt  DateTime? @default(now())
+  item       Items[]
+  qty        Int?      @default(0)
+  totalPrice Int       @default(0)
+  sessionId  String?   @unique
+  user       User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String?   @unique
 }
 
 model Orders {
-  id            String        @id     @default(uuid())
-  customer      String
-  address       String
-  total         Int       
-  status        Int           @default(0)
-  order_id      String
-  payment_id    String
-  method        Int?    
-  user          User?         @relation(fields: [userId],references: [id],onDelete: Cascade)
-  userId        String?
-  session       SessionCart?          @relation(fields: [sessionId],references: [id],onDelete: Cascade)
-  sessionId     String?
-  items         Items[]       
+  id         String       @id @default(uuid())
+  customer   String
+  address    String
+  total      Int
+  status     Int          @default(0)
+  order_id   String
+  payment_id String
+  method     Int?
+  user       User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String?
+  session    SessionCart? @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  sessionId  String?
+  items      Items[]
 }
 
 enum Role {
@@ -156,7 +156,7 @@ enum size {
   LARGE
 }
 
-enum  Profile {
+enum Profile {
   HOME
   WORK
   HOTEL

@@ -133,8 +133,8 @@ export const cartRouter = router({
                         console.log("cart is already resent")
                         const oldCart:sessionCart = session.cart;
 
-                        oldCart.items.map( (item:sessionItems ) => {
-                            const product =  ctx.prisma.product.findFirst({
+                        oldCart.items.map( async (item:sessionItems ) => {
+                            const product = await ctx.prisma.product.findFirst({
                                 where:{
                                     id:item.product?.id
                                 },
