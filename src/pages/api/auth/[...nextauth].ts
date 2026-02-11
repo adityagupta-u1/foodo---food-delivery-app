@@ -90,7 +90,7 @@ export const authOptions: NextAuthOptions = {
         }
       }) as unknown as User
       if(session.user){
-        session.user.role = user?.role
+        session.user.role = user?.role ?? undefined
       }
       return session;
     },
