@@ -69,7 +69,7 @@ const CheckOut = ({cart,razorpayKey,user,session}:{cart:Cart | null,razorpayKey:
                                     currency: order?.currency,
                                     amount: order?.amount,
                                     order_id: order?.id,
-                                    callback_url:`${env.NEXTAUTH_URL}orders/${order.id}`,
+                                    callback_url:`https://foodo-food-delivery-app.vercel.app/orders/${order.id}`,
                                     description: "Thankyou for your test donation",
                                     notes:{
                                             address:values.address,
